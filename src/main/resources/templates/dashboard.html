@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="'NexusHire - ' + ${user.dashboardTitle}">NexusHire</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <header class="navbar">
+    <div class="brand">Nexus<span>Hire</span></div>
+    <div class="nav-right">
+      <span class="nav-user" th:text="${user.name} + ' (' + ${user.role} + ')'">Name</span>
+      <form method="post" th:action="@{/logout}">
+        <button type="submit" class="btn btn-light">Logout</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="content">
+    <h2 th:text="${user.dashboardTitle}">Dashboard</h2>
+    <div class="card">
+      <p>Welcome, <strong th:text="${user.name}">Name</strong>!</p>
+      <p>You are logged in. The features for this dashboard are coming next.</p>
+    </div>
+  </main>
+</body>
+</html>
