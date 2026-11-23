@@ -43,9 +43,11 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestParam String email,
                         @RequestParam String password,
+                        @RequestParam(defaultValue = "JOB_SEEKER") String role,
                         HttpServletRequest request,
                         Model model) {
         model.addAttribute("email", email);
+        model.addAttribute("role", role);
 
         if (email.isBlank() || password.isEmpty()) {
             model.addAttribute("error", "Please enter your email and password.");
@@ -59,6 +61,12 @@ public class AuthController {
                 model.addAttribute("error", "Wrong email or password.");
                 return "login";
             }
+            // The person picked a login type (Job seeker / Employer / Admin). It must match their account.
+            if (!user.get().getRole().name().equals(role)) {
+                model.addAttribute("error", "This account is not registered as " + roleLabel(role)
+                        + ". Choose the right login type above.");
+                return "login";
+            }
             request.getSession().invalidate();            // drop any old session
             HttpSession session = request.getSession(true); // start a fresh one
             session.setAttribute("user", user.get());
@@ -66,6 +74,14 @@ public class AuthController {
         } catch (DatabaseException e) {
             model.addAttribute("error", "Database problem: " + e.getMessage());
             return "login";
+        }
+    }
+
+    private String roleLabel(String role) {
+        switch (role) {
+            case "ADMIN": return "an admin";
+            case "EMPLOYER": return "an employer";
+            default: return "a job seeker";
         }
     }
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NexusHire - Review jobs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/app.css(v=3)}">
+</head>
+<body class="app">
+  <div th:replace="~{fragments/icons :: sprite}"></div>
+
+  <div class="app-shell">
+    <aside th:replace="~{shell :: sidebar('review')}"></aside>
+
+    <div class="app-main">
+      <header th:replace="~{shell :: topbar}"></header>
+
+      <main class="app-content">
+        <div class="page-head">
+          <span class="page-icon"><svg class="icon" width="32" height="32" aria-hidden="true"><use href="#i-clock"/></svg></span>
+          <h1 class="page-title">Jobs waiting for review</h1>
+        </div>
+        <p class="page-sub">Review job postings submitted by employers</p>
+
+        <p class="alert alert-ok" th:if="${success}" th:text="${success}"></p>
+        <p class="alert alert-error" th:if="${error}" th:text="${error}"></p>
+
+        <div class="review-list">
+          <article class="review-card panel" th:each="job : ${jobs}">
+            <h3 th:text="${job.title}">Title</h3>
+            <div class="job-meta">
+              <span class="meta-item"><svg class="icon" width="15" height="15" aria-hidden="true"><use href="#i-pin"/></svg><span th:text="${job.company} + ', ' + ${job.location}">Company, Location</span></span>
+            </div>
+            <p class="review-desc" th:text="${#strings.abbreviate(job.description, 240)}">Description</p>
+            <div class="row-actions">
+              <a class="link-btn" th:href="@{/jobs/{id}(id=${job.id})}">Read full description</a>
+              <form method="post" th:action="@{/admin/jobs/{id}/approve(id=${job.id})}">
+                <button type="submit" class="btn btn-sm"><svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>Approve</button>
+              </form>
+              <form method="post" th:action="@{/admin/jobs/{id}/reject(id=${job.id})}">
+                <button type="submit" class="btn btn-sm btn-danger"><svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-x"/></svg>Reject</button>
+              </form>
+            </div>
+          </article>
+        </div>
+
+        <div class="empty panel" th:if="${#lists.isEmpty(jobs) and error == null}">
+          <div th:replace="~{fragments/art :: empty-clock}"></div>
+          <h3>No jobs to review</h3>
+          <p>Nothing to review. New jobs from employers will show up here.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

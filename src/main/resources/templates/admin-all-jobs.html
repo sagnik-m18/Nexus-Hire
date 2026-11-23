@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NexusHire - All jobs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/app.css(v=3)}">
+</head>
+<body class="app">
+  <div th:replace="~{fragments/icons :: sprite}"></div>
+
+  <div class="app-shell">
+    <aside th:replace="~{shell :: sidebar('all')}"></aside>
+
+    <div class="app-main">
+      <header th:replace="~{shell :: topbar}"></header>
+
+      <main class="app-content">
+        <div class="page-head">
+          <span class="page-icon"><svg class="icon" width="32" height="32" aria-hidden="true"><use href="#i-grid"/></svg></span>
+          <h1 class="page-title">All jobs</h1>
+        </div>
+        <p class="page-sub">Browse all job postings on NexusHire</p>
+
+        <p class="alert alert-ok" th:if="${success}" th:text="${success}"></p>
+        <p class="alert alert-error" th:if="${error}" th:text="${error}"></p>
+        <p class="alert alert-error" th:if="${loadError}" th:text="${loadError}"></p>
+
+        <div class="table-panel panel" th:if="${!#lists.isEmpty(jobs)}">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Job</th><th>Status</th><th>Posted</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                <tr th:each="job : ${jobs}">
+                  <td>
+                    <span class="cell-title" th:text="${job.title}">Title</span>
+                    <span class="cell-sub" th:text="${job.company} + ', ' + ${job.location}">Company, Location</span>
+                  </td>
+                  <td>
+                    <span class="pill" th:classappend="'status-' + ${#strings.toLowerCase(job.status.name())}"
+                          th:text="${#strings.toLowerCase(job.status.name())}">pending</span>
+                  </td>
+                  <td th:text="${job.postedAt.toLocalDate()}">2026-11-09</td>
+                  <td>
+                    <div class="cell-actions">
+                      <a class="link-btn" th:href="@{/jobs/{id}(id=${job.id})}">View job</a>
+                      <form method="post" th:action="@{/admin/jobs/{id}/delete(id=${job.id})}"
+                            onsubmit="return confirm('Delete this job? All applications for it will be deleted too.');">
+                        <button type="submit" class="btn btn-sm btn-danger"><svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-trash"/></svg>Delete</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="empty panel" th:if="${#lists.isEmpty(jobs) and loadError == null}">
+          <div th:replace="~{fragments/art :: empty-check}"></div>
+          <h3>No jobs have been posted yet.</h3>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

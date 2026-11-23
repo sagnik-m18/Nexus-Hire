@@ -3,26 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="'NexusHire - ' + ${user.dashboardTitle}">NexusHire</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <title th:text="'NexusHire - ' + ${currentUser.dashboardTitle}">NexusHire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/app.css(v=3)}">
 </head>
-<body>
-  <header class="navbar">
-    <div class="brand">Nexus<span>Hire</span></div>
-    <div class="nav-right">
-      <span class="nav-user" th:text="${user.name} + ' (' + ${user.role} + ')'">Name</span>
-      <form method="post" th:action="@{/logout}">
-        <button type="submit" class="btn btn-light">Logout</button>
-      </form>
-    </div>
-  </header>
+<body class="app">
+  <div th:replace="~{fragments/icons :: sprite}"></div>
 
-  <main class="content">
-    <h2 th:text="${user.dashboardTitle}">Dashboard</h2>
-    <div class="card">
-      <p>Welcome, <strong th:text="${user.name}">Name</strong>!</p>
-      <p>You are logged in. The features for this dashboard are coming next.</p>
+  <div class="app-shell">
+    <aside th:replace="~{shell :: sidebar('dashboard')}"></aside>
+
+    <div class="app-main">
+      <header th:replace="~{shell :: topbar}"></header>
+
+      <main class="app-content">
+        <div class="dash">
+          <section>
+            <span class="chip-pill">
+              <svg class="icon" width="17" height="17" aria-hidden="true" th:if="${currentUser.role.name() == 'ADMIN'}"><use href="#i-shield"/></svg>
+              <svg class="icon" width="17" height="17" aria-hidden="true" th:if="${currentUser.role.name() != 'ADMIN'}"><use href="#i-user"/></svg>
+              <span th:text="${currentUser.role.name() == 'ADMIN'} ? 'Admin Panel' : ${#strings.capitalize(#strings.toLowerCase(#strings.replace(currentUser.role.name(), '_', ' ')))}">Admin Panel</span>
+            </span>
+
+            <h1 class="dash-title" th:with="t=${currentUser.dashboardTitle}, i=${currentUser.dashboardTitle.lastIndexOf(' ')}">
+              <th:block th:if="${i > 0}"><span th:text="${t.substring(0, i)}">Admin</span> <span class="accent" th:text="${t.substring(i + 1)}">Dashboard</span></th:block>
+              <th:block th:unless="${i > 0}"><span th:text="${t}">Dashboard</span></th:block>
+            </h1>
+            <p class="dash-welcome">Welcome, <strong th:text="${currentUser.name}">Name</strong>.</p>
+
+            <div class="tile-grid">
+              <a class="tile" th:href="@{/jobs}">
+                <span class="tile-icon tile--blue"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#i-briefcase"/></svg></span>
+                <span class="tile-body"><strong>Browse jobs</strong><span>See every approved job and search by keyword or location.</span></span>
+                <span class="tile-go"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+              </a>
+
+              <th:block th:if="${currentUser.role.name() == 'JOB_SEEKER'}">
+                <a class="tile" th:href="@{/applications}">
+                  <span class="tile-icon tile--violet"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#i-file"/></svg></span>
+                  <span class="tile-body"><strong>My applications</strong><span>Follow the status of every job you applied for.</span></span>
+                  <span class="tile-go"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+                </a>
+                <a class="tile" th:href="@{/profile}">
+                  <span class="tile-icon tile--orange"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#i-user"/></svg></span>
+                  <span class="tile-body"><strong>My profile</strong><span>Update your name and resume. Employers read it when you apply.</span></span>
+                  <span class="tile-go"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+                </a>
+              </th:block>
+
+              <th:block th:if="${currentUser.role.name() == 'EMPLOYER'}">
+                <a class="tile" th:href="@{/employer/jobs/new}">
+                  <span class="tile-icon tile--green"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#i-plus"/></svg></span>
+                  <span class="tile-body"><strong>Post a job</strong><span>Describe a role. An admin approves it before job seekers can see it.</span></span>
+                  <span class="tile-go"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+                </a>
+                <a class="tile" th:href="@{/employer/jobs}">
+                  <span class="tile-icon tile--violet"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#i-clipboard"/></svg></span>
+                  <span class="tile-body"><strong>My jobs</strong><span>Check which of your jobs are pending, approved or rejected.</span></span>
+                  <span class="tile-go"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+                </a>
+              </th:block>
+
+              <th:block th:if="${currentUser.role.name() == 'ADMIN'}">
+                <a class="tile" th:href="@{/admin/jobs}">
+                  <span class="tile-icon tile--violet"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#i-search"/></svg></span>
+                  <span class="tile-body"><strong>Review jobs</strong><span>Approve or reject jobs waiting for review.</span></span>
+                  <span class="tile-go"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+                </a>
+                <a class="tile" th:href="@{/admin/all-jobs}">
+                  <span class="tile-icon tile--green"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#i-list"/></svg></span>
+                  <span class="tile-body"><strong>All jobs</strong><span>See every job in every status and remove bad ones.</span></span>
+                  <span class="tile-go"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+                </a>
+                <a class="tile" th:href="@{/admin/users}">
+                  <span class="tile-icon tile--orange"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#i-users"/></svg></span>
+                  <span class="tile-body"><strong>Users</strong><span>See every account and remove users who break the rules.</span></span>
+                  <span class="tile-go"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+                </a>
+              </th:block>
+            </div>
+          </section>
+
+          <div class="dash-art" aria-hidden="true">
+            <div th:replace="~{fragments/art :: clipboard}"></div>
+          </div>
+        </div>
+      </main>
     </div>
-  </main>
+  </div>
 </body>
 </html>

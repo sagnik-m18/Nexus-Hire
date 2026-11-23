@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+  <header class="navbar" th:fragment="navbar">
+    <div class="brand">Nexus<span>Hire</span></div>
+    <nav class="nx-links" th:if="${currentUser != null}">
+      <a th:href="@{/dashboard}">Dashboard</a>
+      <a th:href="@{/jobs}">Browse jobs</a>
+      <a th:if="${currentUser.role.name() == 'JOB_SEEKER'}" th:href="@{/applications}">My applications</a>
+      <a th:if="${currentUser.role.name() == 'JOB_SEEKER'}" th:href="@{/profile}">My profile</a>
+      <a th:if="${currentUser.role.name() == 'EMPLOYER'}" th:href="@{/employer/jobs}">My jobs</a>
+      <a th:if="${currentUser.role.name() == 'EMPLOYER'}" th:href="@{/employer/jobs/new}">Post a job</a>
+      <a th:if="${currentUser.role.name() == 'ADMIN'}" th:href="@{/admin/jobs}">Review jobs</a>
+      <a th:if="${currentUser.role.name() == 'ADMIN'}" th:href="@{/admin/all-jobs}">All jobs</a>
+      <a th:if="${currentUser.role.name() == 'ADMIN'}" th:href="@{/admin/users}">Users</a>
+    </nav>
+    <div class="nav-right" th:if="${currentUser != null}">
+      <span class="nav-user" th:text="${currentUser.name} + ' (' + ${currentUser.role} + ')'">Name</span>
+      <form method="post" th:action="@{/logout}">
+        <button type="submit" class="btn btn-light">Logout</button>
+      </form>
+    </div>
+  </header>
+</body>
+</html>

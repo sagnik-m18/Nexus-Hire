@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NexusHire - My jobs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/app.css(v=3)}">
+</head>
+<body class="app">
+  <div th:replace="~{fragments/icons :: sprite}"></div>
+
+  <div class="app-shell">
+    <aside th:replace="~{shell :: sidebar('myjobs')}"></aside>
+
+    <div class="app-main">
+      <header th:replace="~{shell :: topbar}"></header>
+
+      <main class="app-content">
+        <div class="page-top">
+          <div>
+            <div class="page-head">
+              <span class="page-icon"><svg class="icon" width="32" height="32" aria-hidden="true"><use href="#i-briefcase"/></svg></span>
+              <h1 class="page-title">My jobs</h1>
+            </div>
+            <p class="page-sub">Manage the jobs you have posted</p>
+          </div>
+          <a class="btn btn-lg" th:href="@{/employer/jobs/new}">Post a job <svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-plus"/></svg></a>
+        </div>
+
+        <p class="alert alert-ok" th:if="${success}" th:text="${success}"></p>
+        <p class="alert alert-error" th:if="${error}" th:text="${error}"></p>
+
+        <div class="review-list">
+          <article class="review-card panel" th:each="job : ${jobs}">
+            <div class="job-title-row">
+              <h3 th:text="${job.title}">Title</h3>
+              <span class="pill" th:classappend="'status-' + ${#strings.toLowerCase(job.status.name())}"
+                    th:text="${#strings.toLowerCase(job.status.name())}">pending</span>
+            </div>
+            <div class="job-meta">
+              <span class="meta-item"><svg class="icon" width="15" height="15" aria-hidden="true"><use href="#i-pin"/></svg><span th:text="${job.company} + ', ' + ${job.location}">Company, Location</span></span>
+              <span class="meta-item"><svg class="icon" width="15" height="15" aria-hidden="true"><use href="#i-clock"/></svg><span th:text="'Posted ' + ${job.postedAt.toLocalDate()}">Posted</span></span>
+            </div>
+            <div class="row-actions">
+              <a class="link-btn" th:href="@{/jobs/{id}(id=${job.id})}">View job</a>
+              <a class="link-btn" th:if="${job.status.name() == 'APPROVED'}" th:href="@{/employer/jobs/{id}/applicants(id=${job.id})}">View applicants</a>
+              <a class="link-btn" th:href="@{/employer/jobs/{id}/edit(id=${job.id})}">Edit</a>
+              <form method="post" th:action="@{/employer/jobs/{id}/delete(id=${job.id})}"
+                    onsubmit="return confirm('Delete this job? All applications for it will be deleted too.');">
+                <button type="submit" class="btn btn-sm btn-danger"><svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-trash"/></svg>Delete</button>
+              </form>
+            </div>
+          </article>
+        </div>
+
+        <div class="empty panel" th:if="${#lists.isEmpty(jobs) and error == null}">
+          <div th:replace="~{fragments/art :: empty-laptop}"></div>
+          <h3>No jobs posted yet</h3>
+          <p>You have not posted any jobs yet. Use "Post a job" to add your first one.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

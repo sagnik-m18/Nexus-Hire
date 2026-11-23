@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Login page illustration: laptop + magnifier + profile card -->
+<svg th:fragment="laptop" width="340" height="250" viewBox="0 0 340 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Laptop showing a briefcase">
+  <defs>
+    <linearGradient id="lp-screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f8df5"/><stop offset="1" stop-color="#2556d9"/>
+    </linearGradient>
+    <linearGradient id="lp-base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b62c9"/><stop offset="1" stop-color="#27439a"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="170" cy="224" rx="150" ry="14" fill="#06122f" opacity=".35"/>
+  <circle cx="150" cy="120" r="105" fill="#3b82f6" opacity=".14"/>
+
+  <rect x="38" y="34" width="200" height="132" rx="12" fill="#1f3f99" stroke="#4a78e6" stroke-width="2"/>
+  <rect x="48" y="44" width="180" height="112" rx="6" fill="url(#lp-screen)"/>
+
+  <path d="M124 82v-6a5 5 0 0 1 5-5h20a5 5 0 0 1 5 5v6" fill="none" stroke="#dbeafe" stroke-width="5" stroke-linecap="round"/>
+  <rect x="104" y="82" width="68" height="46" rx="8" fill="#dbeafe"/>
+  <path d="M104 100h68" stroke="#93b4f5" stroke-width="3"/>
+  <rect x="131" y="94" width="14" height="12" rx="3" fill="#2563eb"/>
+
+  <path d="M18 166h240l12 16a6 6 0 0 1-5 9H11a6 6 0 0 1-5-9z" fill="url(#lp-base)"/>
+  <rect x="112" y="168" width="52" height="6" rx="3" fill="#1f3480" opacity=".6"/>
+
+  <circle cx="262" cy="52" r="24" fill="#93c5fd" fill-opacity=".18" stroke="#60a5fa" stroke-width="8"/>
+  <path d="M280 70l22 24" stroke="#60a5fa" stroke-width="10" stroke-linecap="round"/>
+
+  <rect x="226" y="124" width="104" height="78" rx="12" fill="#06122f" opacity=".3"/>
+  <g transform="translate(222 118)">
+    <rect width="104" height="78" rx="12" fill="#f1f6ff" stroke="#c7d9fb" stroke-width="2"/>
+    <circle cx="26" cy="26" r="10" fill="#2563eb"/>
+    <path d="M10 54a16 13 0 0 1 32 0z" fill="#2563eb"/>
+    <rect x="48" y="18" width="44" height="6" rx="3" fill="#93b4f5"/>
+    <rect x="48" y="31" width="34" height="6" rx="3" fill="#bcd0fa"/>
+    <rect x="48" y="48" width="44" height="6" rx="3" fill="#bcd0fa"/>
+    <rect x="12" y="62" width="80" height="6" rx="3" fill="#dbe7fd"/>
+  </g>
+</svg>
+
+<!-- Register page illustration: profile card with verified badge -->
+<svg th:fragment="profile" width="300" height="270" viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Profile card with a check mark">
+  <ellipse cx="130" cy="244" rx="100" ry="12" fill="#2563eb" opacity=".12"/>
+  <circle cx="105" cy="165" r="95" fill="#bfd4fb" opacity=".55"/>
+  <g transform="rotate(-9 150 135)">
+    <rect x="94" y="56" width="146" height="190" rx="20" fill="#2563eb" opacity=".12"/>
+    <rect x="86" y="46" width="146" height="190" rx="20" fill="#fff" stroke="#c7d9fb" stroke-width="2"/>
+    <circle cx="159" cy="102" r="30" fill="#dbeafe"/>
+    <circle cx="159" cy="94" r="11" fill="#2563eb"/>
+    <path d="M139 124a20 16 0 0 1 40 0z" fill="#2563eb"/>
+    <rect x="110" y="152" width="98" height="9" rx="4.5" fill="#93b4f5"/>
+    <rect x="110" y="171" width="74" height="9" rx="4.5" fill="#bcd0fa"/>
+    <rect x="110" y="190" width="98" height="9" rx="4.5" fill="#dbe7fd"/>
+  </g>
+  <circle cx="232" cy="184" r="25" fill="#2563eb" stroke="#fff" stroke-width="5"/>
+  <path d="M220 185l8 8 15-17" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M238 50l5 12M254 70l12 4M264 96l12-1" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
+</svg>
+
+<!-- Dashboard illustration: clipboard with profile, magnifier and shield -->
+<svg th:fragment="clipboard" width="440" height="400" viewBox="0 0 440 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clipboard with a profile and a magnifying glass">
+  <ellipse cx="236" cy="376" rx="170" ry="12" fill="#2563eb" opacity=".1"/>
+  <path d="M96 210c0-84 62-150 150-150 74 0 134 48 134 128 0 86-62 164-152 164-72 0-132-46-132-142z" fill="#dce7fe"/>
+  <circle cx="368" cy="96" r="26" fill="#e9f0ff"/>
+  <g transform="rotate(5 240 200)">
+    <rect x="132" y="48" width="214" height="292" rx="22" fill="#5b8def" stroke="#2f5fd0" stroke-width="3"/>
+    <rect x="148" y="70" width="182" height="254" rx="12" fill="#fff"/>
+    <rect x="192" y="32" width="94" height="38" rx="11" fill="#1e3a8a"/>
+    <circle cx="239" cy="51" r="6" fill="#dbe7ff"/>
+    <circle cx="192" cy="132" r="34" fill="#dbe7ff"/>
+    <circle cx="192" cy="124" r="13" fill="#1d4ed8"/>
+    <path d="M167 162a25 20 0 0 1 50 0z" fill="#1d4ed8"/>
+    <rect x="242" y="112" width="72" height="8" rx="4" fill="#c3d4f7"/>
+    <rect x="242" y="130" width="54" height="8" rx="4" fill="#c3d4f7"/>
+    <rect x="242" y="148" width="64" height="8" rx="4" fill="#c3d4f7"/>
+    <circle cx="174" cy="214" r="14" fill="#bcd0fa"/>
+    <rect x="198" y="205" width="100" height="8" rx="4" fill="#dbe5fb"/>
+    <rect x="198" y="222" width="78" height="8" rx="4" fill="#dbe5fb"/>
+    <rect x="166" y="252" width="146" height="8" rx="4" fill="#e3ebfc"/>
+    <rect x="166" y="270" width="126" height="8" rx="4" fill="#e3ebfc"/>
+    <rect x="166" y="288" width="146" height="8" rx="4" fill="#e3ebfc"/>
+  </g>
+  <g transform="translate(330 118)">
+    <path d="M40 0l44 16v38c0 30-18 50-44 62C14 104-4 84-4 54V16z" fill="#3b82f6"/>
+    <path d="M40 8l36 13v33c0 25-14 42-36 52" fill="none" stroke="#7fb0fb" stroke-width="3" opacity=".6"/>
+    <path d="M24 52l12 12 22-24" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <circle cx="300" cy="262" r="48" fill="#fff" fill-opacity=".4" stroke="#14275f" stroke-width="11"/>
+  <path d="M335 298l48 50" stroke="#14275f" stroke-width="20" stroke-linecap="round"/>
+  <rect x="84" y="300" width="46" height="52" rx="7" fill="#cfe0ff"/>
+  <rect x="80" y="294" width="54" height="14" rx="5" fill="#b9d0fb"/>
+  <ellipse cx="96" cy="262" rx="12" ry="36" transform="rotate(-24 96 262)" fill="#4f86f0"/>
+  <ellipse cx="116" cy="254" rx="11" ry="38" transform="rotate(8 116 254)" fill="#7aa5f7"/>
+  <ellipse cx="134" cy="266" rx="10" ry="32" transform="rotate(32 134 266)" fill="#3b73e6"/>
+</svg>
+
+<!-- Empty state: document with a clock -->
+<svg th:fragment="empty-clock" width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="100" cy="134" rx="78" ry="8" fill="#2563eb" opacity=".08"/>
+  <circle cx="100" cy="78" r="58" fill="#e3ecff"/>
+  <circle cx="56" cy="102" r="22" fill="#edf3ff"/>
+  <circle cx="148" cy="106" r="20" fill="#edf3ff"/>
+  <rect x="68" y="34" width="62" height="78" rx="9" fill="#fff" stroke="#9db9f4" stroke-width="2.5"/>
+  <rect x="78" y="50" width="30" height="5" rx="2.5" fill="#7ea2f2"/>
+  <rect x="78" y="62" width="42" height="5" rx="2.5" fill="#b9cdf8"/>
+  <rect x="78" y="74" width="26" height="5" rx="2.5" fill="#b9cdf8"/>
+  <circle cx="124" cy="102" r="17" fill="#2563eb" stroke="#fff" stroke-width="4"/>
+  <path d="M124 94v9l6 3" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<!-- Empty state: document with a check mark -->
+<svg th:fragment="empty-check" width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="100" cy="134" rx="78" ry="8" fill="#2563eb" opacity=".08"/>
+  <circle cx="100" cy="78" r="58" fill="#e3ecff"/>
+  <circle cx="56" cy="102" r="22" fill="#edf3ff"/>
+  <circle cx="148" cy="106" r="20" fill="#edf3ff"/>
+  <rect x="68" y="34" width="62" height="78" rx="9" fill="#fff" stroke="#9db9f4" stroke-width="2.5"/>
+  <rect x="78" y="50" width="30" height="5" rx="2.5" fill="#7ea2f2"/>
+  <rect x="78" y="62" width="42" height="5" rx="2.5" fill="#b9cdf8"/>
+  <rect x="78" y="74" width="26" height="5" rx="2.5" fill="#b9cdf8"/>
+  <circle cx="124" cy="102" r="17" fill="#2563eb" stroke="#fff" stroke-width="4"/>
+  <path d="M116 102l6 6 11-12" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<!-- Empty state: briefcase -->
+<svg th:fragment="empty-briefcase" width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="100" cy="134" rx="78" ry="8" fill="#2563eb" opacity=".08"/>
+  <circle cx="100" cy="78" r="58" fill="#e3ecff"/>
+  <circle cx="54" cy="102" r="22" fill="#edf3ff"/>
+  <circle cx="148" cy="106" r="20" fill="#edf3ff"/>
+  <path d="M84 62v-6a6 6 0 0 1 6-6h20a6 6 0 0 1 6 6v6" fill="none" stroke="#6f97f1" stroke-width="7" stroke-linecap="round"/>
+  <rect x="60" y="60" width="80" height="58" rx="10" fill="#8fb0f7"/>
+  <path d="M60 86h80" stroke="#6f97f1" stroke-width="4"/>
+  <rect x="92" y="80" width="16" height="14" rx="3" fill="#dbe7ff"/>
+</svg>
+
+<!-- Post / edit job illustration: briefcase with a plus badge -->
+<svg th:fragment="briefcase-plus" width="300" height="240" viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="150" cy="214" rx="120" ry="10" fill="#2563eb" opacity=".12"/>
+  <path d="M110 84V66a14 14 0 0 1 14-14h52a14 14 0 0 1 14 14v18" fill="none" stroke="#2f61d8" stroke-width="12" stroke-linecap="round"/>
+  <rect x="52" y="78" width="196" height="124" rx="20" fill="#3b73e6"/>
+  <path d="M52 124h196v-26a20 20 0 0 0-20-20H72a20 20 0 0 0-20 20z" fill="#4d84f2"/>
+  <rect x="128" y="112" width="44" height="30" rx="8" fill="#bcd0fa"/>
+  <rect x="136" y="120" width="28" height="8" rx="4" fill="#e3ecff"/>
+  <circle cx="232" cy="180" r="38" fill="#2563eb" stroke="#fff" stroke-width="7"/>
+  <path d="M232 162v36M214 180h36" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+  <path d="M236 40l6 14M254 56l14 6M266 82l14-2" stroke="#60a5fa" stroke-width="5" stroke-linecap="round"/>
+</svg>
+
+<!-- Empty state: clipboard with a magnifier -->
+<svg th:fragment="empty-clipboard" width="260" height="190" viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="130" cy="172" rx="108" ry="9" fill="#2563eb" opacity=".1"/>
+  <circle cx="118" cy="92" r="70" fill="#e3ecff"/>
+  <circle cx="60" cy="116" r="26" fill="#edf3ff"/>
+  <rect x="78" y="22" width="92" height="124" rx="12" fill="#5b8def" stroke="#2f5fd0" stroke-width="2.5"/>
+  <rect x="86" y="34" width="76" height="104" rx="7" fill="#fff"/>
+  <rect x="104" y="14" width="40" height="18" rx="6" fill="#1e3a8a"/>
+  <circle cx="124" cy="62" r="15" fill="#dbe7ff"/>
+  <circle cx="124" cy="58" r="6" fill="#1d4ed8"/>
+  <path d="M112 74a12 9 0 0 1 24 0z" fill="#1d4ed8"/>
+  <rect x="96" y="88" width="56" height="5" rx="2.5" fill="#bcd0fa"/>
+  <rect x="96" y="100" width="44" height="5" rx="2.5" fill="#d3e0fb"/>
+  <rect x="96" y="112" width="56" height="5" rx="2.5" fill="#d3e0fb"/>
+  <circle cx="156" cy="108" r="24" fill="#fff" fill-opacity=".45" stroke="#1d4ed8" stroke-width="6"/>
+  <path d="M174 126l24 26" stroke="#1d4ed8" stroke-width="10" stroke-linecap="round"/>
+  <path d="M184 40l4 10M198 54l10 3" stroke="#60a5fa" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+
+<!-- Empty state: laptop with a briefcase and a paper plane -->
+<svg th:fragment="empty-laptop" width="300" height="190" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="150" cy="172" rx="120" ry="9" fill="#2563eb" opacity=".1"/>
+  <circle cx="140" cy="92" r="74" fill="#e3ecff"/>
+  <circle cx="68" cy="122" r="28" fill="#edf3ff"/>
+  <circle cx="224" cy="114" r="26" fill="#edf3ff"/>
+  <rect x="82" y="40" width="134" height="92" rx="9" fill="#fff" stroke="#3b73e6" stroke-width="5"/>
+  <rect x="90" y="48" width="118" height="76" rx="4" fill="#f4f8ff"/>
+  <path d="M135 84v-5a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v5" fill="none" stroke="#3b73e6" stroke-width="5" stroke-linecap="round"/>
+  <rect x="124" y="84" width="52" height="34" rx="7" fill="#3b73e6"/>
+  <path d="M124 98h52" stroke="#2f61d8" stroke-width="3"/>
+  <rect x="144" y="94" width="12" height="9" rx="2" fill="#bcd0fa"/>
+  <path d="M60 134h180l8 12a4 4 0 0 1-3 6H55a4 4 0 0 1-3-6z" fill="#3b73e6"/>
+  <path d="M240 52l42-26-20 44-10-14z" fill="#3b82f6"/>
+  <path d="M252 56l30-30-36 24z" fill="#1d4ed8"/>
+  <path d="M236 74c-6-16-24-24-40-16" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="4 5" stroke-linecap="round"/>
+</svg>
+
+</body>
+</html>

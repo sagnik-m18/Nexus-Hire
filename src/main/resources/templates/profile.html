@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NexusHire - My profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/app.css(v=3)}">
+</head>
+<body class="app">
+  <div th:replace="~{fragments/icons :: sprite}"></div>
+
+  <div class="app-shell">
+    <aside th:replace="~{shell :: sidebar('profile')}"></aside>
+
+    <div class="app-main">
+      <header th:replace="~{shell :: topbar}"></header>
+
+      <main class="app-content">
+        <div class="page-head">
+          <span class="page-icon"><svg class="icon" width="32" height="32" aria-hidden="true"><use href="#i-user"/></svg></span>
+          <h1 class="page-title">My profile</h1>
+        </div>
+        <p class="page-sub">Employers can read your resume when you apply to their jobs.</p>
+
+        <p class="alert alert-ok" th:if="${success}" th:text="${success}"></p>
+        <p class="alert alert-error" th:if="${error}" th:text="${error}"></p>
+
+        <div class="form-layout">
+          <form class="form-card panel" method="post" th:action="@{/profile}">
+            <div class="field">
+              <label for="email">Email</label>
+              <div class="input-wrap">
+                <svg class="icon" width="18" height="18" aria-hidden="true"><use href="#i-mail"/></svg>
+                <input id="email" type="email" th:value="${email}" readonly>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="name">Name</label>
+              <div class="input-wrap">
+                <svg class="icon" width="18" height="18" aria-hidden="true"><use href="#i-user"/></svg>
+                <input id="name" name="name" type="text" maxlength="100" required th:value="${name}">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="resume">Resume</label>
+              <div class="input-wrap is-area">
+                <svg class="icon" width="18" height="18" aria-hidden="true"><use href="#i-file"/></svg>
+                <textarea id="resume" name="resume" rows="12" maxlength="10000"
+                          placeholder="Your experience, education and skills" th:text="${resume}"></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-lg"><svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-save"/></svg>Save profile</button>
+            </div>
+          </form>
+
+          <div class="form-art" aria-hidden="true">
+            <div th:replace="~{fragments/art :: profile}"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

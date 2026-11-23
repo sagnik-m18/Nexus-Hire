@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="'NexusHire - Applicants: ' + ${job.title}">NexusHire - Applicants</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/jobs.css}">
+</head>
+<body>
+  <div th:replace="~{fragments :: navbar}"></div>
+
+  <main class="content">
+    <p><a th:href="@{/employer/jobs}">Back to my jobs</a></p>
+    <h2>Applicants</h2>
+    <p><strong th:text="${job.title}">Title</strong>
+       <span class="nx-meta" th:text="'at ' + ${job.company} + ', ' + ${job.location}">at Company, Location</span></p>
+
+    <p class="nx-alert nx-alert-ok" th:if="${success}" th:text="${success}"></p>
+    <p class="nx-alert nx-alert-error" th:if="${error}" th:text="${error}"></p>
+
+    <div class="nx-list">
+      <div class="card" th:each="row : ${rows}">
+        <h3>
+          <span th:text="${row.seeker != null} ? ${row.seeker.name} : 'Unknown applicant'">Name</span>
+          <span class="nx-badge" th:classappend="'nx-badge-' + ${#strings.toLowerCase(row.application.status.name())}"
+                th:text="${#strings.capitalize(#strings.toLowerCase(#strings.replace(row.application.status.name(), '_', ' ')))}">Applied</span>
+        </h3>
+        <p class="nx-meta"
+           th:text="(${row.seeker != null} ? ${row.seeker.email} + ' - ' : '') + 'applied on ' + ${row.application.appliedAt.toLocalDate()}">email - applied on</p>
+
+        <p><strong>Cover letter</strong></p>
+        <p class="nx-text" th:if="${row.application.coverLetter != null}" th:text="${row.application.coverLetter}"></p>
+        <p class="nx-meta" th:if="${row.application.coverLetter == null}">No cover letter.</p>
+
+        <p><strong>Resume</strong></p>
+        <p class="nx-text" th:if="${row.resume != null}" th:text="${row.resume}"></p>
+        <p class="nx-meta" th:if="${row.resume == null}">No resume on file.</p>
+
+        <form class="nx-actions" method="post" th:action="@{/employer/applications/{id}/status(id=${row.application.id})}">
+          <select name="status" aria-label="Application status">
+            <option value="" disabled th:selected="${row.application.status.name() == 'APPLIED'}">New - choose a status</option>
+            <option value="UNDER_REVIEW" th:selected="${row.application.status.name() == 'UNDER_REVIEW'}">Under review</option>
+            <option value="SHORTLISTED" th:selected="${row.application.status.name() == 'SHORTLISTED'}">Shortlisted</option>
+            <option value="REJECTED" th:selected="${row.application.status.name() == 'REJECTED'}">Rejected</option>
+            <option value="HIRED" th:selected="${row.application.status.name() == 'HIRED'}">Hired</option>
+          </select>
+          <button type="submit" class="nx-btn">Update status</button>
+        </form>
+      </div>
+    </div>
+
+    <p class="nx-empty" th:if="${#lists.isEmpty(rows)}">
+      Nobody has applied to this job yet. Applications will show up here.
+    </p>
+  </main>
+</body>
+</html>

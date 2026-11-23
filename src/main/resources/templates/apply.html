@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="'NexusHire - Apply: ' + ${job.title}">NexusHire - Apply</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/jobs.css}">
+</head>
+<body>
+  <div th:replace="~{fragments :: navbar}"></div>
+
+  <main class="content">
+    <h2>Apply for this job</h2>
+    <p><strong th:text="${job.title}">Title</strong>
+       <span class="nx-meta" th:text="'at ' + ${job.company} + ', ' + ${job.location}">at Company, Location</span></p>
+
+    <p class="nx-alert nx-alert-error" th:if="${error}" th:text="${error}"></p>
+
+    <form class="card nx-form" method="post" th:action="@{/jobs/{id}/apply(id=${job.id})}">
+      <label for="coverLetter">Cover letter (optional)</label>
+      <textarea id="coverLetter" name="coverLetter" rows="8" maxlength="3000"
+                placeholder="Tell the employer why you are a good fit" th:text="${coverLetter}"></textarea>
+
+      <button type="submit" class="nx-btn">Send application</button>
+    </form>
+
+    <p><a th:href="@{/jobs/{id}(id=${job.id})}">Back to the job</a></p>
+  </main>
+</body>
+</html>

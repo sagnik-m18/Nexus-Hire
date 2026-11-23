@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NexusHire - All users</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/app.css(v=3)}">
+</head>
+<body class="app">
+  <div th:replace="~{fragments/icons :: sprite}"></div>
+
+  <div class="app-shell">
+    <aside th:replace="~{shell :: sidebar('users')}"></aside>
+
+    <div class="app-main">
+      <header th:replace="~{shell :: topbar}"></header>
+
+      <main class="app-content">
+        <div class="page-head">
+          <span class="page-icon"><svg class="icon" width="32" height="32" aria-hidden="true"><use href="#i-users"/></svg></span>
+          <h1 class="page-title">All users</h1>
+        </div>
+        <p class="page-sub">Manage all registered users on NexusHire</p>
+
+        <p class="alert alert-ok" th:if="${success}" th:text="${success}"></p>
+        <p class="alert alert-error" th:if="${error}" th:text="${error}"></p>
+        <p class="alert alert-error" th:if="${loadError}" th:text="${loadError}"></p>
+
+        <div class="table-panel panel" th:if="${!#lists.isEmpty(users)}">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Name</th><th>Email</th><th>Role</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr th:each="u : ${users}">
+                  <td th:text="${u.name}">Name</td>
+                  <td th:text="${u.email}">email</td>
+                  <td>
+                    <span class="pill" th:classappend="'role-' + ${#strings.toLowerCase(u.role.name())}"
+                          th:text="${#strings.capitalize(#strings.toLowerCase(#strings.replace(u.role.name(), '_', ' ')))}">Role</span>
+                  </td>
+                  <td>
+                    <form th:if="${u.role.name() != 'ADMIN'}" method="post" th:action="@{/admin/users/{id}/delete(id=${u.id})}"
+                          onsubmit="return confirm('Delete this user? Their jobs and applications will be deleted too.');">
+                      <button type="submit" class="btn btn-sm btn-danger"><svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-trash"/></svg>Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="empty panel" th:if="${#lists.isEmpty(users) and loadError == null}">
+          <div th:replace="~{fragments/art :: empty-check}"></div>
+          <h3>No users yet.</h3>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

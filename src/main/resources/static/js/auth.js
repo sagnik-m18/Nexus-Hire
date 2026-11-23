@@ -1,0 +1,121 @@
+(function () {
+  // ----- Show / hide password -----
+  document.querySelectorAll('[data-toggle-password]').forEach(function (btn) {
+    var input = document.getElementById(btn.getAttribute('data-toggle-password'));
+    if (!input) return;
+    btn.addEventListener('click', function () {
+      var show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.classList.toggle('is-on', show);
+      btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      btn.setAttribute('aria-pressed', String(show));
+    });
+  });
+
+  // ----- Password strength meter (visual only; server validation is unchanged) -----
+  var pw = document.getElementById('password');
+  var meter = document.getElementById('strength');
+  if (pw && meter) {
+    var label = meter.querySelector('.strength-text');
+    var names = ['Too short (minimum 6 characters)', 'Weak', 'Fair', 'Good', 'Strong'];
+    pw.addEventListener('input', function () {
+      var v = pw.value;
+      if (!v) { meter.hidden = true; return; }
+      var classes = [/[a-z]/, /[A-Z]/, /\d/, /[^A-Za-z0-9]/].filter(function (r) { return r.test(v); }).length;
+      var s = 0;
+      if (v.length >= 6) s++;
+      if (v.length >= 10) s++;
+      if (v.length >= 6 && classes >= 3) s++;
+      if (v.length >= 12 && classes >= 3) s++;
+      meter.hidden = false;
+      meter.setAttribute('data-level', String(s));
+      label.textContent = names[s];
+    });
+  }
+
+  // ----- Confirm-password match hint -----
+  var confirmEl = document.getElementById('confirm');
+  var hint = document.getElementById('matchHint');
+  if (pw && confirmEl && hint) {
+    var check = function () {
+      if (!confirmEl.value) { hint.hidden = true; return; }
+      var ok = confirmEl.value === pw.value;
+      hint.hidden = false;
+      hint.textContent = ok ? 'Passwords match' : 'Passwords do not match';
+      hint.className = 'field-hint ' + (ok ? 'ok' : 'bad');
+    };
+    confirmEl.addEventListener('input', check);
+    pw.addEventListener('input', check);
+  }
+
+  // ----- Show resume section only for job seekers -----
+  var role = document.getElementById('role');
+  var box = document.getElementById('resumeBox');
+  if (role && box) {
+    var sync = function () { box.hidden = role.value !== 'JOB_SEEKER'; };
+    role.addEventListener('change', sync);
+    sync();
+  }
+
+  // ----- Resume: drop zone loads a .txt file into the textarea; textarea can be shown to paste -----
+  var zone = document.getElementById('dropzone');
+  var fileInput = document.getElementById('resumeFile');
+  var text = document.getElementById('resume');
+  var chip = document.getElementById('fileChip');
+  var chipName = document.getElementById('fileChipName');
+  var chipRemove = document.getElementById('fileChipRemove');
+  var err = document.getElementById('dzError');
+  var pasteToggle = document.getElementById('pasteToggle');
+  var pasteBox = document.getElementById('pasteBox');
+
+  if (pasteToggle && pasteBox && text) {
+    var setPaste = function (open) {
+      pasteBox.hidden = !open;
+      pasteToggle.setAttribute('aria-expanded', String(open));
+      pasteToggle.textContent = open ? 'Hide pasted text' : 'Or paste your resume text instead';
+    };
+    pasteToggle.addEventListener('click', function () { setPaste(pasteBox.hidden); });
+    if (text.value.trim()) setPaste(true);
+  }
+
+  if (zone && fileInput && text) {
+    var MAX = 50 * 1024;
+
+    var showError = function (msg) { err.textContent = msg; err.hidden = false; };
+
+    var handle = function (file) {
+      err.hidden = true;
+      if (!file) return;
+      if (!/\.txt$/i.test(file.name)) {
+        showError('Please choose a .txt file. For PDF or Word resumes, copy the text and paste it instead.');
+        return;
+      }
+      if (file.size > MAX) { showError('That file is too large. The limit is 50 KB.'); return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        text.value = reader.result;
+        chipName.textContent = file.name + ' \u00b7 ' + (file.size / 1024).toFixed(1) + ' KB';
+        chip.hidden = false;
+      };
+      reader.onerror = function () { showError('Could not read that file. Please try again.'); };
+      reader.readAsText(file);
+    };
+
+    zone.addEventListener('click', function () { fileInput.click(); });
+    zone.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+    });
+    fileInput.addEventListener('change', function () { handle(fileInput.files[0]); fileInput.value = ''; });
+
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      zone.addEventListener(ev, function (e) { e.preventDefault(); zone.classList.add('is-over'); });
+    });
+    ['dragleave', 'drop'].forEach(function (ev) {
+      zone.addEventListener(ev, function (e) { e.preventDefault(); zone.classList.remove('is-over'); });
+    });
+    zone.addEventListener('drop', function (e) { handle(e.dataTransfer.files[0]); });
+
+    chipRemove.addEventListener('click', function () { text.value = ''; chip.hidden = true; });
+    text.addEventListener('input', function () { chip.hidden = true; });
+  }
+})();
