@@ -2,8 +2,6 @@
 
 NexusHire is a full-stack job portal built with **Java 17, Spring Boot and MySQL**. Employers can post jobs and review applicants, job seekers can browse and apply for jobs, and admins moderate everything from a dedicated dashboard. The interface is a modern, responsive SaaS-style UI built with Thymeleaf templates and custom CSS.
 
-> Built as a college project.
-
 ---
 
 ## Features
@@ -154,7 +152,6 @@ On first run the console demo and seed data create sample accounts for each role
 | Employer   | `employer@example.com` | `********` |
 | Job Seeker | `seeker@example.com` | `********` |
 
-> Change or remove these credentials before deploying anywhere public.
 
 ---
 
@@ -167,18 +164,6 @@ On first run the console demo and seed data create sample accounts for each role
 5. **Job seekers** apply to a job. Each application starts as `APPLIED`.
 6. **Employers** review applicants and move them through `UNDER_REVIEW`, `SHORTLISTED`, `REJECTED` or `HIRED`.
 7. Job seekers see the updated status on **My applications**.
-
----
-
-## Screenshots
-
-Add screenshots of your app here. Save the images in a `docs/screenshots/` folder and reference them like this:
-
-```markdown
-![Login](docs/screenshots/login.png)
-![Admin Dashboard](docs/screenshots/admin-dashboard.png)
-![Browse Jobs](docs/screenshots/browse-jobs.png)
-```
 
 ---
 
@@ -202,11 +187,12 @@ Add screenshots of your app here. Save the images in a `docs/screenshots/` folde
 
 ## Author
 
-**<Your Name>**
-GitHub: [@your-username](https://github.com/your-username)
+**Sagnik Mukherjee**
+
+GitHub: [@sagnik-m18](https://github.com/sagnik-m18)
 
 ---
 
 ## License
 
-This project was created for educational purposes. Add a license of your choice (for example MIT) if you plan to share or reuse it.
+> This project was created for educational purposes. 
